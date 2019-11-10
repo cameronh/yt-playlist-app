@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-    <div class="container">
-      <InputForm @url-changed="processURL" />
-      <div v-if="state.loading" class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-
-      <ItemContainer :items="state.items" />
-    </div>
+    <b-container class="bv-example-row">
+      <b-row class="mt-5">
+        <b-col>
+          <InputForm @url-changed="processURL" />
+        </b-col>
+      </b-row>
+      <b-row class="mt-5">
+        <b-col>
+          <ItemContainer :items="state.items" :loading="state.loading" />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -54,7 +58,7 @@ export default {
   },
   components: {
     InputForm,
-    ItemContainer
+    ItemContainer,
   }
 };
 </script>
