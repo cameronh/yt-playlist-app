@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <b-container class="bv-example-row">
+  <div id="app" class="bg-dark">
+    <b-container>
       <b-row class="mt-5">
         <b-col>
           <InputForm @url-changed="processURL" />
@@ -64,12 +64,7 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+html {
+  background-color: #343a40;
 }
 </style>

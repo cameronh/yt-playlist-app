@@ -1,6 +1,6 @@
 <template>
   <div v-if="loading" class="loading-spinner">
-    <b-spinner label="label" />
+    <b-spinner :variant="variant" :label="label" />
   </div>
 </template>
 
@@ -15,6 +15,10 @@ export default {
     label: {
       type: String,
       default: 'Loading...'
+    },
+    variant: {
+      type: String,
+      default: 'primary'
     }
   }
 }

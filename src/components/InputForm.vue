@@ -1,8 +1,6 @@
 <template>
   <div id="input-form">
-    <form>
-      <input v-model="url" type="text" class="form-control" placeholder="Enter a YouTube playlist URL.." />
-    </form>
+    <b-form-input id="url" v-model="url" size="lg" class="bg-dark text-white" placeholder="Enter a YouTube playlist URL.." />
   </div>
 </template>
 
