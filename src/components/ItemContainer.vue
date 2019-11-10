@@ -3,9 +3,6 @@
     <div v-for="(item, i) in items.items" :key="item.videoId + i">
       <b-card v-if="item.title != 'Private video'" :title="item.title" :img-src="item.thumbnails ? item.thumbnails.high.url : null" img-left class="item-card bg-dark text-white border-secondary">
         <b-card-text>
-          <a v-b-tooltip.hover title="Copy link to clipboard" href="#" target="_blank">
-            <font-awesome-icon :icon="['far', 'copy']" />
-          </a>
           <a v-b-tooltip.hover title="Play on YouTube" :href="item.videoId ? 'https://youtube.com/watch?v=' + item.videoId : null" target="_blank">
             <font-awesome-icon :icon="['far', 'play-circle']" />
           </a>

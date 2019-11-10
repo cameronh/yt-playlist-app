@@ -35,7 +35,7 @@ export default {
   methods: {
     async processURL(url) {
       this.state.url = url;
-
+      if (!url.match(/^.*(youtu.be\/|list=)([^#&?]*).*/)) return;
       try {
         this.state.loading = true;
         const results = await axios.get('http://localhost:3000/playlist', {
@@ -43,9 +43,9 @@ export default {
             id: url
           }
         });
-        if (results.status == '200' && results.data) {
+        if (results.data && results.data.success) {
           // eslint-disable-next-line no-console
-          console.log(results.data);
+          // console.log(results.data);
           this.state.items = results.data;
         }
 

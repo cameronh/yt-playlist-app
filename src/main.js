@@ -11,7 +11,6 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 Vue.use(BootstrapVue);
 
 library.add(regIcons.faPlayCircle);
-library.add(regIcons.faCopy);
 library.add(solidIcons.faDownload);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
