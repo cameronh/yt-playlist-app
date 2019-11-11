@@ -8,7 +8,7 @@
       </b-row>
       <b-row class="mt-5">
         <b-col>
-          <ItemContainer :items="state.items" :loading="state.loading" />
+          <ItemContainer @download-video="downloadVideo" :items="state.items" :loading="state.loading"/>
         </b-col>
       </b-row>
     </b-container>
@@ -53,6 +53,32 @@ export default {
       } catch (err) {
         this.state.error = err;
         this.state.loading = false;
+      }
+    },
+    async downloadVideo(video) {
+      try {
+        this.state.loading = true;
+        const results = await axios({
+          url: 'http://localhost:3000/download',
+          params: {
+            id: video
+          },
+          method: 'GET'
+        });
+        if (results.data && results.data.success) {
+          let fileURL = window.URL.createObjectURL(new Blob([Buffer.from(results.data.video, 'base64')]));
+          let fileLink = document.createElement('a');
+          fileLink.href = fileURL;
+          fileLink.setAttribute('download', 'video.mp4');
+          document.body.appendChild(fileLink);
+
+          fileLink.click();
+
+          this.state.loading = false;
+        }
+      } catch (err) {
+        this.state.error = err;
+        this.state.downloading = false;
       }
     }
   },
