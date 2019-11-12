@@ -8,7 +8,7 @@
       </b-row>
       <b-row class="mt-5">
         <b-col>
-          <ItemContainer @download-video="downloadVideo" :items="state.items" :loading="state.loading"/>
+          <ItemContainer @download-video="downloadVideo" :playlistInfo="state.playlistInfo" :items="state.items" :loading="state.loading"/>
         </b-col>
       </b-row>
     </b-container>
@@ -28,7 +28,8 @@ export default {
         loading: false,
         url: null,
         error: null,
-        items: {}
+        playlistInfo: {},
+        items: []
       }
     }
   },
@@ -46,7 +47,8 @@ export default {
         if (results.data && results.data.success) {
           // eslint-disable-next-line no-console
           // console.log(results.data);
-          this.state.items = results.data;
+          this.state.playlistInfo = results.data.playlistInfo;
+          this.state.items = results.data.items;
         }
 
         this.state.loading = false;

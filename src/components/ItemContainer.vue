@@ -1,6 +1,12 @@
 <template>
   <div id="item-container" v-if="!loading">
-    <div v-for="(item, i) in items.items" :key="item.videoId + i">
+    <b-alert v-if="items.length > 0 && playlistInfo" variant="dark" show>
+      <b-form-input id="search" size="md" class="bg-dark text-white playlist-search" placeholder="Search playlist.." />
+      <h5 class="alert-heading text-white mb-0">{{ playlistInfo.title }}</h5>
+      <p class="text-white">{{ playlistInfo.channelTitle }}</p>
+      <p class="text-white mb-0">{{ items.length }} videos</p>
+    </b-alert>
+    <div v-for="(item, i) in items" :key="item.videoId + i">
       <b-card v-if="item.title != 'Private video'" :title="item.title" :img-src="item.thumbnails ? item.thumbnails.high.url : null" img-left class="item-card bg-dark text-white border-secondary">
         <b-card-text>
           <a v-b-tooltip.hover title="Play on YouTube" :href="item.videoId ? 'https://youtube.com/watch?v=' + item.videoId : null" target="_blank">
@@ -27,7 +33,8 @@ export default {
     LoadingSpinner
   },
   props: {
-    items: Object,
+    playlistInfo: Object,
+    items: Array,
     loading: Boolean
   },
   data: () => {
@@ -69,5 +76,13 @@ export default {
 }
 .card-body .card-text a:hover {
   color: #007bff;
+}
+div.alert.alert-dark {
+  background-color: #3d444a;
+}
+.playlist-search {
+  background-color: #3d444a !important;
+  max-width: 350px;
+  float: right;
 }
 </style>
