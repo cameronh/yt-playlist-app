@@ -24,6 +24,7 @@ export default {
   name: "app",
   data: () => {
     return {
+      api_url: '',
       state: {
         loading: false,
         url: null,
@@ -33,13 +34,20 @@ export default {
       }
     }
   },
+  mounted() {
+    if (process.env.NODE_ENV === 'production') {
+      this.api_url = 'https://chudson.io:3000';
+    } else {
+      this.api_url = 'http://localhost:3000';
+    }
+  },
   methods: {
     async processURL(url) {
       this.state.url = url;
       if (!url.match(/^.*(youtu.be\/|list=)([^#&?]*).*/)) return;
       try {
         this.state.loading = true;
-        const results = await axios.get('http://localhost:3000/playlist', {
+        const results = await axios.get(`${this.api_url}/playlist`, {
           params: {
             id: url
           }
@@ -61,7 +69,7 @@ export default {
       try {
         this.state.loading = true;
         const results = await axios({
-          url: 'http://localhost:3000/download',
+          url: `${this.api_url}/download`,
           params: {
             id: video
           },
