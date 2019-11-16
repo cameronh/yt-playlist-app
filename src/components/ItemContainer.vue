@@ -1,12 +1,12 @@
 <template>
   <div id="item-container" v-if="!loading">
-    <b-alert v-if="items.length > 0 && playlistInfo" variant="dark" show>
-      <b-form-input id="search" size="md" class="bg-dark text-white playlist-search" placeholder="Search playlist.." />
+    <b-alert v-if="filteredItems.length > 0 && playlistInfo" variant="dark" show>
+      <b-form-input id="search" v-model="search_text" size="md" class="bg-dark text-white playlist-search" placeholder="Search playlist.." />
       <h5 class="alert-heading text-white mb-0">{{ playlistInfo.title }}</h5>
       <p class="text-white">{{ playlistInfo.channelTitle }}</p>
       <p class="text-white mb-0">{{ items.length }} videos</p>
     </b-alert>
-    <div v-for="(item, i) in items" :key="item.videoId + i">
+    <div v-for="(item, i) in filteredItems" :key="item.videoId + i">
       <b-card v-if="item.title != 'Private video'" :title="item.title" :img-src="item.thumbnails ? item.thumbnails.high.url : null" img-left class="item-card bg-dark text-white border-secondary">
         <b-card-text>
           <a v-b-tooltip.hover title="Play on YouTube" :href="item.videoId ? 'https://youtube.com/watch?v=' + item.videoId : null" target="_blank">
@@ -45,7 +45,15 @@ export default {
   },
   data: () => {
     return {
+      search_text: '',
     };
+  },
+  computed: {
+    filteredItems() {
+      return this.items.filter((item) => {
+        return item.title.toLowerCase().includes(this.search_text.toLowerCase())
+      });
+    }
   },
   methods: {
     downloadVideo(video) {
