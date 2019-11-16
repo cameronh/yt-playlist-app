@@ -8,7 +8,13 @@
       </b-row>
       <b-row class="mt-5">
         <b-col>
-          <ItemContainer @download-video="downloadVideo" :playlistInfo="state.playlistInfo" :items="state.items" :loading="state.loading"/>
+          <ItemContainer
+            @download-video="downloadVideo"
+            :playlistInfo="state.playlistInfo"
+            :items="state.items"
+            :loading="state.loading"
+            :downloading="state.downloading"
+          />
         </b-col>
       </b-row>
     </b-container>
@@ -27,6 +33,7 @@ export default {
       api_url: '',
       state: {
         loading: false,
+        downloading: false,
         url: null,
         error: null,
         playlistInfo: {},
@@ -67,7 +74,7 @@ export default {
     },
     async downloadVideo(video) {
       try {
-        this.state.loading = true;
+        this.state.downloading = true;
         const results = await axios({
           url: `${this.api_url}/download`,
           params: {
@@ -84,7 +91,7 @@ export default {
 
           fileLink.click();
 
-          this.state.loading = false;
+          this.state.downloading = false;
         }
       } catch (err) {
         this.state.error = err;

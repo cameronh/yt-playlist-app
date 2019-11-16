@@ -1,7 +1,7 @@
 <template>
-  <div v-if="loading" class="loading-spinner">
-    <b-spinner :variant="variant" :label="label" />
-  </div>
+  <span v-if="loading" class="loading-spinner">
+    <b-spinner :small="small" :variant="variant" :label="label" style="margin-bottom: 2px" />
+  </span>
 </template>
 
 <script>
@@ -19,6 +19,10 @@ export default {
     variant: {
       type: String,
       default: 'primary'
+    },
+    small: {
+      type: Boolean,
+      default: false
     }
   }
 }

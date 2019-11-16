@@ -12,9 +12,14 @@
           <a v-b-tooltip.hover title="Play on YouTube" :href="item.videoId ? 'https://youtube.com/watch?v=' + item.videoId : null" target="_blank">
             <font-awesome-icon :icon="['far', 'play-circle']" />
           </a>
-          <a v-b-tooltip.hover title="Download Video" @click="downloadVideo('https://youtube.com/watch?v=' + item.videoId)">
-            <font-awesome-icon :icon="['fa', 'download']" />
-          </a>
+          <template v-if="!downloading">
+            <a v-b-tooltip.hover title="Download Video" @click="downloadVideo('https://youtube.com/watch?v=' + item.videoId)">
+              <font-awesome-icon :icon="['fa', 'download']" />
+            </a>
+          </template>
+          <template v-else>
+            <LoadingSpinner :small=true :loading="downloading" />
+          </template>
         </b-card-text>
       </b-card>
     </div>
@@ -35,7 +40,8 @@ export default {
   props: {
     playlistInfo: Object,
     items: Array,
-    loading: Boolean
+    loading: Boolean,
+    downloading: Boolean
   },
   data: () => {
     return {
