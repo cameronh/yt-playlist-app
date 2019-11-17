@@ -1,6 +1,6 @@
 <template>
   <div id="item-container" v-if="!loading">
-    <b-alert v-if="filteredItems.length > 0 && playlistInfo" variant="dark" show>
+    <b-alert v-if="showPlaylistInfo" variant="dark" show>
       <b-form-input id="search" v-model="search_text" size="md" class="bg-dark text-white playlist-search" placeholder="Search playlist.." />
       <h5 class="alert-heading text-white mb-0">{{ playlistInfo.title }}</h5>
       <p class="text-white">{{ playlistInfo.channelTitle }}</p>
@@ -47,12 +47,25 @@ export default {
   data: () => {
     return {
       search_text: '',
+      debounced_search_text: '',
     };
   },
+  watch: {
+    'search_text': debounce(function(newVal, oldVal) {
+      this.debounced_search_text = '';
+      
+      if (newVal !== oldVal) {
+        this.debounced_search_text = newVal;
+      }
+    }, 500)
+  },
   computed: {
+    showPlaylistInfo() {
+      return this.playlistInfo.title || this.search_text.length > 0;
+    },
     filteredItems() {
       return this.items.filter((item) => {
-        return item.title.toLowerCase().includes(this.search_text.toLowerCase())
+        return item.title.toLowerCase().includes(this.debounced_search_text.toLowerCase())
       });
     }
   },
