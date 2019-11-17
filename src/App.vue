@@ -3,6 +3,7 @@
     <b-container>
       <b-row class="mt-5">
         <b-col>
+          <ErrorAlert :text="this.state.error" />
           <InputForm @url-changed="processURL" />
         </b-col>
       </b-row>
@@ -22,15 +23,16 @@
 </template>
 
 <script>
-import axios from "axios";
-import InputForm from "./components/InputForm";
-import ItemContainer from "./components/ItemContainer";
+import axios from 'axios';
+import InputForm from './components/InputForm';
+import ItemContainer from './components/ItemContainer';
+import ErrorAlert from './components/ErrorAlert';
 
 export default {
-  name: "app",
+  name: 'app',
   data: () => {
     return {
-      api_url: "",
+      api_url: '',
       state: {
         loading: false,
         downloading: false,
@@ -42,15 +44,17 @@ export default {
     };
   },
   mounted() {
-    if (process.env.NODE_ENV === "production") {
-      this.api_url = "https://chudson.io:3000";
+    if (process.env.NODE_ENV === 'production') {
+      this.api_url = 'https://chudson.io:3000';
     } else {
-      this.api_url = "http://localhost:3000";
+      this.api_url = 'http://localhost:3000';
     }
   },
   methods: {
     async processURL(url) {
+      this.state.error = null;
       this.state.url = url;
+
       if (!url.match(/^.*(youtu.be\/|list=)([^#&?]*).*/)) return;
       try {
         this.state.loading = true;
@@ -68,11 +72,13 @@ export default {
 
         this.state.loading = false;
       } catch (err) {
-        this.state.error = err;
+        this.state.error = err.message;
         this.state.loading = false;
       }
     },
     async downloadVideo(video) {
+      this.state.error = null;
+      
       try {
         this.state.downloading = true;
         const results = await axios({
@@ -80,15 +86,15 @@ export default {
           params: {
             id: video
           },
-          method: "GET"
+          method: 'GET'
         });
         if (results.data && results.data.success) {
           let fileURL = window.URL.createObjectURL(
-            new Blob([Buffer.from(results.data.video, "base64")])
+            new Blob([Buffer.from(results.data.video, 'base64')])
           );
-          let fileLink = document.createElement("a");
+          let fileLink = document.createElement('a');
           fileLink.href = fileURL;
-          fileLink.setAttribute("download", "video.mp4");
+          fileLink.setAttribute('download', 'video.mp4');
           document.body.appendChild(fileLink);
 
           fileLink.click();
@@ -103,7 +109,8 @@ export default {
   },
   components: {
     InputForm,
-    ItemContainer
+    ItemContainer,
+    ErrorAlert
   }
 };
 </script>
