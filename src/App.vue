@@ -4,7 +4,7 @@
       <b-row class="mt-5">
         <b-col>
           <ErrorAlert :text="this.state.error" />
-          <InputForm @url-changed="processURL" />
+          <InputForm @url-changed="processURL" placeholder="Enter a YouTube playlist URL.." />
         </b-col>
       </b-row>
       <b-row class="mt-5">
