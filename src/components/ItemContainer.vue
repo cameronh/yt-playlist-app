@@ -1,7 +1,7 @@
 <template>
   <div id="item-container" v-if="!loading">
     <b-alert v-if="showPlaylistInfo" variant="dark" show>
-      <b-form-input id="search" v-model="search_text" size="md" class="bg-dark text-white playlist-search" placeholder="Search playlist.." />
+      <InputForm @input-changed="search_text = $event" size="md" classes="text-white playlist-search" placeholder="Search playlist.." />
       <h5 class="alert-heading text-white mb-0">{{ playlistInfo.title }}</h5>
       <p class="text-white">{{ playlistInfo.channelTitle }}</p>
       <p class="text-white mb-0">{{ items.length }} videos</p>
@@ -9,11 +9,11 @@
     <div v-for="(item, i) in filteredItems" :key="item.videoId + i">
       <b-card v-if="item.title != 'Private video'" :title="item.title" :img-src="item.thumbnails ? item.thumbnails.high.url : null" img-left class="item-card bg-dark text-white border-secondary">
         <b-card-text>
-          <a v-b-tooltip.hover title="Play on YouTube" :href="item.videoId ? 'https://youtube.com/watch?v=' + item.videoId : null" target="_blank">
+          <a v-b-tooltip.hover title="Play on YouTube" :href="item.videoId ? youtube_watch_prefix + item.videoId : null" target="_blank">
             <font-awesome-icon :icon="['far', 'play-circle']" />
           </a>
           <template v-if="!downloading">
-            <a v-b-tooltip.hover title="Download Video" @click="downloadVideo('https://youtube.com/watch?v=' + item.videoId)">
+            <a v-b-tooltip.hover title="Download Video" @click="downloadVideo(youtube_watch_prefix + item.videoId)">
               <font-awesome-icon :icon="['fa', 'download']" />
             </a>
           </template>
@@ -31,12 +31,14 @@
 
 <script>
 import LoadingSpinner from './LoadingSpinner';
+import InputForm from './InputForm';
 import debounce from 'lodash.debounce';
 
 export default {
   name: "ItemContainer",
   components: {
-    LoadingSpinner
+    LoadingSpinner,
+    InputForm
   },
   props: {
     playlistInfo: Object,
@@ -46,6 +48,7 @@ export default {
   },
   data: () => {
     return {
+      youtube_watch_prefix: 'https://youtube.com/watch?v=',
       search_text: '',
       debounced_search_text: '',
     };
@@ -107,10 +110,5 @@ export default {
 }
 div.alert.alert-dark {
   background-color: #3d444a;
-}
-.playlist-search {
-  background-color: #3d444a !important;
-  max-width: 350px;
-  float: right;
 }
 </style>

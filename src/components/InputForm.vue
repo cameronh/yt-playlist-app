@@ -1,6 +1,6 @@
 <template>
-  <div id="input-form">
-    <b-form-input id="url" v-model="url" :size="size" :class="classes" :placeholder="placeholder" />
+  <div class="input-form">
+    <b-form-input v-model="input" :size="size" :class="classes" :placeholder="placeholder" />
   </div>
 </template>
 
@@ -23,13 +23,13 @@ export default {
   },
   data: () => {
     return {
-      url: null
+      input: null
     }
   },
   watch: {
-    'url': function (newVal, oldVal) {
+    'input': function (newVal, oldVal) {
       if (newVal !== oldVal) {
-        this.$emit('url-changed', newVal);
+        this.$emit('input-changed', newVal);
       }
     }
   }

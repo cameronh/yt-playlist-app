@@ -4,7 +4,7 @@
       <b-row class="mt-5">
         <b-col>
           <ErrorAlert :text="this.state.error" />
-          <InputForm @url-changed="processURL" placeholder="Enter a YouTube playlist URL.." />
+          <InputForm @input-changed="processURL" placeholder="Enter a YouTube playlist URL.." />
         </b-col>
       </b-row>
       <b-row class="mt-5">
@@ -118,5 +118,10 @@ export default {
 <style>
 html {
   background-color: #343a40;
+}
+.playlist-search {
+  background-color: #3d444a !important;
+  max-width: 350px;
+  float: right;
 }
 </style>
